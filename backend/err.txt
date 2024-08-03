@@ -1,0 +1,14 @@
+parser.y: warning: 3 nonterminals useless in grammar [-Wother]
+parser.y: warning: 9 rules useless in grammar [-Wother]
+parser.y:125.1-9: warning: nonterminal useless in grammar: imm_value [-Wother]
+  125 | imm_value
+      | ^~~~~~~~~
+parser.y:136.1-4: warning: nonterminal useless in grammar: cell [-Wother]
+  136 | cell
+      | ^~~~
+parser.y:143.1-8: warning: nonterminal useless in grammar: error_nt [-Wother]
+  143 | error_nt 
+      | ^~~~~~~~
+parser.y: warning: 2 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: warning: 2 reduce/reduce conflicts [-Wconflicts-rr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
