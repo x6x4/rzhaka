@@ -10,7 +10,7 @@
 
 %code requires {
 #include "liba.h"
-#include "lab.h"
+#include "runtime/runtime.h"
 class Scanner;
 }
 
@@ -26,8 +26,8 @@ extern "C" int yyerror(const char *s) {
 };
 
 Symbol_table symtab;
-Field field("hexagons.labhex");
-Robot robot (field);
+Field lab("/home/cracky/rzhaka/backend/hexagons.labhex");
+
 
 static yy::parser::symbol_type yylex(Scanner &scanner) {
     return scanner.ScanToken();
@@ -42,7 +42,7 @@ static yy::parser::symbol_type yylex(Scanner &scanner) {
 %token <char> PLUS MINUS XOR EQ LT GT
 %token <Integer> NUMBER
 %token <Boolean> TRUE FALSE UNDEF 
-%token <Cell> EMPTY WALL BOX EXIT 
+%token <CellVar> EMPTY WALL BOX EXIT 
 %token <std::string> VARIABLE ASSIGN
 %token FN_MAIN DO DONE NEWLINES UNKNOWN 
 %token FORWARD BACK LEFT RIGHT TEST LOOK
@@ -73,12 +73,12 @@ statement
 | var_declaration
 
 operator
-: FORWARD   { $$ = robot.forward(); robot.print(); }
-| BACK      { $$ = robot.back(); robot.print(); } 
-| TEST      { $$ = robot.test(); robot.print(); } 
-| LOOK      { $$ = robot.look(); robot.print(); } 
-| LEFT      { $$ = robot.left(); robot.print(); } 
-| RIGHT     { $$ = robot.right(); robot.print(); } 
+: FORWARD   { $$ = lab.move_robot(1); }
+| BACK      { $$ = lab.move_robot(0); } 
+| TEST      { $$ = lab.test(); } 
+| LOOK      { $$ = lab.look(); } 
+| LEFT      { $$ = lab.left(); } 
+| RIGHT     { $$ = lab.right(); } 
 
 assignment
 : VARIABLE ASSIGN expr { 

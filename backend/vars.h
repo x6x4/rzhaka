@@ -150,20 +150,20 @@ public:
     }
 
 };
-class Cell {
+class CellVar {
     CellTypeWrapper value;
 
 public:
 
-    Cell() {};
+    CellVar() {};
 
-    Cell(CellType new_value) : value(new_value) {}
-    friend std::ostream& operator<<(std::ostream& os, const Cell& cell) {
+    CellVar(CellType new_value) : value(new_value) {}
+    friend std::ostream& operator<<(std::ostream& os, const CellVar& cell) {
         os << cell.value; 
         return os; 
     }  
 
-    bool operator==(const Cell& other) const {
+    bool operator==(const CellVar& other) const {
         return value == other.value;
     }
 };

@@ -35,10 +35,10 @@ t(rue)*         {   return yy::parser::make_TRUE(Boolean(BoolVal::TRUE)); }
 f(alse)*        {   return yy::parser::make_FALSE(Boolean(BoolVal::FALSE)); }
 u(ndef)*        {   return yy::parser::make_UNDEF(Boolean(BoolVal::UNDEF)); }
 
-"empty"           { return yy::parser::make_EMPTY(Cell(CellType::EMPTY)); }
-"wall"            { return yy::parser::make_WALL(Cell(CellType::WALL)); }
-"box"             { return yy::parser::make_BOX(Cell(CellType::BOX)); }
-"exit"            { return yy::parser::make_EXIT(Cell(CellType::EXIT)); }
+"empty"           { return yy::parser::make_EMPTY(CellVar(CellType::EMPTY)); }
+"wall"            { return yy::parser::make_WALL(CellVar(CellType::WALL)); }
+"box"             { return yy::parser::make_BOX(CellVar(CellType::BOX)); }
+"exit"            { return yy::parser::make_EXIT(CellVar(CellType::EXIT)); }
 
 
 "^"             {  

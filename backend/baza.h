@@ -1,5 +1,6 @@
 #pragma once
 
+
 enum class CellType {
     BOX, 
     WALL, 
@@ -7,3 +8,13 @@ enum class CellType {
     EXIT,
     UNDEF
 };
+
+enum class WeightType {
+    MINUS_INF,
+    PLUS_INF,
+    NUM, 
+    UNDEF,
+    ZERO
+};
+
+
