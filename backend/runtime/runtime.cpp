@@ -6,7 +6,7 @@
 #include "runtime.h"
 
 
-bool Field::move_robot(bool forward) {
+Boolean Field::move_robot(bool forward) {
     prev_cell = cur_cell;
     bool status = move_from_cell(forward, cur_cell);
     if (!status) std::cout << "stuck" << std::endl;
@@ -74,20 +74,24 @@ Field::Field (const std::string &string) {
 }
 
 
-void Field::right() {
+Boolean Field::right() {
     int new_dir = (int) direction;
     if (direction != Orient::NORTH_WEST)
         direction = (Orient) ++new_dir;
     else
         direction = Orient::NORTH;
+
+    return true;
 }
 
-void Field::left() {
+Boolean Field::left() {
     int new_dir = (int) direction;
     if (direction != Orient::NORTH)
         direction = (Orient) --new_dir;
     else
         direction = Orient::NORTH_WEST;
+
+    return true;
 }
 
 bool change_coords (const Field &field, Cell &cell_to_move_from, int d, int w) {
@@ -180,7 +184,7 @@ CellType Field::test() {
     return CellType::WALL;
 }
 
-int Field::look() {
+Integer Field::look() {
     Cell to_look = cur_cell;
     int dist = 0;
     while (move_from_cell(1, to_look)) {

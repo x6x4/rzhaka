@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-#include "../baza.h"
+#include "../vars.h"
 
 
 struct BaseCell {
@@ -62,11 +62,11 @@ public:
 
     Field (const std::string &string);
 
-    bool move_robot(bool forward);
-    void right();
-    void left();
+    Boolean move_robot(bool forward);
+    Boolean right();
+    Boolean left();
     CellType test();
-    int look();
+    Integer look();
 
 private:
     bool move_from_cell(bool forward, Cell &start_cell);
