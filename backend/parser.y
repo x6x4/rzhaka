@@ -26,7 +26,7 @@ extern "C" int yyerror(const char *s) {
 };
 
 Symbol_table symtab;
-Field lab("backend/hexagons.labhex");
+Field lab("/home/cracky/rzhaka/backend/hexagons.labhex");
 
 
 static yy::parser::symbol_type yylex(Scanner &scanner) {
@@ -101,8 +101,8 @@ expr
 | logic_expr { $$ = $1; }
 
 operator
-: FORWARD   { $$ = lab.move_robot(1); }
-| BACK      { $$ = lab.move_robot(0); } 
+: FORWARD   { $$ = lab.move_robot(1); lab.send(); }
+| BACK      { $$ = lab.move_robot(0); lab.send(); } 
 | TEST      { $$ = lab.test(); } 
 | LOOK      { $$ = lab.look(); } 
 | LEFT      { $$ = lab.left(); } 

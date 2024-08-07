@@ -32,23 +32,21 @@ class FieldGui : public QWidget {
     Q_OBJECT
 
     QGridLayout m_grid;
-    Field *m_field;
+    Cell prev;
 
 public:
 
     FieldGui (Field* field, QWidget *main);
-    void wait() {
 
-    }
 
 signals:
-    void changed();
+    void changed(Orient dir, Cell cur);
 
 private slots:
-    void update() {
-        auto Old = m_grid.itemAtPosition(m_field->get_prev().first, m_field->get_prev().second)->widget();
+    void update(Orient dir, Cell cur) {
+        auto Old = m_grid.itemAtPosition(prev.first, prev.second)->widget();
 
-        switch (m_field->get_orient()) {
+        switch (dir) {
             case Orient::NORTH:
                 ((QLabel*) Old)->setText("^");
                 break;
@@ -71,7 +69,7 @@ private slots:
 
         ((QLabel*) Old)->setAlignment(Qt::AlignCenter);
 
-        auto New = m_grid.itemAtPosition(m_field->get_cur().first, m_field->get_cur().second)->widget();
+        auto New = m_grid.itemAtPosition(cur.first, cur.second)->widget();
 
         ((QLabel*) New)->setText("ROBOT");
         ((QLabel*) New)->setAlignment(Qt::AlignCenter);

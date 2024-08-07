@@ -14,7 +14,7 @@ Widget::~Widget()
 }
 
 FieldGui::FieldGui (Field* field, QWidget *main) :
-    m_grid(QGridLayout()), m_field(field), QWidget(main) {
+    m_grid(QGridLayout()), QWidget(main) {
 
     m_grid.setSpacing(0);
     QVector<QLabel*> labels;
@@ -52,8 +52,10 @@ FieldGui::FieldGui (Field* field, QWidget *main) :
             cur_cell_idx++;
     }
 
+    prev = field->get_cur();
+
     main->setLayout(&m_grid);
     connect(this, &FieldGui::changed, this, &FieldGui::update);
-    update();
+    update(field->get_orient(), field->get_cur());
 }
 

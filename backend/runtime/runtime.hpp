@@ -54,6 +54,9 @@ class Field {
     std::vector<std::pair<Cell, BaseCell>> m_cells;
 
 public:
+
+    void send() {}
+
     const auto get_cells() const {return m_cells;}
     const auto get_orient() const {return direction;}
     const auto get_prev() const {return prev_cell;}

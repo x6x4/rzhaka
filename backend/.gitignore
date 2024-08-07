@@ -3,3 +3,5 @@ lex.yy.cc
 *.out
 .vscode*
 *.gch
+CMakeFiles*
+build*

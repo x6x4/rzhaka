@@ -6,6 +6,8 @@ add_subdirectory(runtime)
 find_package(FLEX  REQUIRED)
 find_package(BISON REQUIRED)
 
+add_compile_options(-Wno-register)
+
 FLEX_TARGET(
     BackendScanner
     scanner.l
