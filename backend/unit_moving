@@ -2,7 +2,7 @@ function main () do
             dist := look
             forward
             dist := look
-        while dist > 0 do 
+        if dist > 0 do 
             forward 
             dist := dist - 1
         done

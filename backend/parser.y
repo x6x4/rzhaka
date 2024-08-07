@@ -46,6 +46,7 @@ static yy::parser::symbol_type yylex(Scanner &scanner) {
 %token <std::string> VARIABLE ASSIGN
 %token FN_MAIN DO DONE NEWLINES 
 %token FORWARD BACK LEFT RIGHT TEST LOOK
+%token IF
 
 %type <ValueType> expr
 %type <Integer>   arith_expr arith_sub_expr arith_add_expr 
@@ -58,9 +59,10 @@ static yy::parser::symbol_type yylex(Scanner &scanner) {
 %%
 
 fn_main 
-: FN_MAIN fn_body { symtab.print(); }
+: FN_MAIN block_body { symtab.print(); }
 
-fn_body
+
+block_body
 : DO NEWLINES statements DONE 
 
 statements
@@ -130,6 +132,7 @@ arith_add_expr
 
 arith_sub_expr
 : NUMBER { $$ = $1; }
+| VARIABLE { $$ = symtab.get_entry($1);}
 | arith_sub_expr MINUS NUMBER { $$ = $1 - $3; }
 
 
