@@ -1,5 +1,5 @@
-#include "widget.h"
-#include "./ui_widget.h"
+#include "widget.hpp"
+#include "ui_widget.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -54,6 +54,6 @@ FieldGui::FieldGui (Field* field, QWidget *main) :
 
     main->setLayout(&m_grid);
     connect(this, &FieldGui::changed, this, &FieldGui::update);
-    emit changed();
+    update();
 }
 

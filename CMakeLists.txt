@@ -15,7 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 set(PROJECT_SOURCES
         main.cpp
         widget.cpp
-        widget.h
+        widget.hpp
         widget.ui
 )
 
@@ -23,6 +23,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(rzhaka
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        backend/runtime/CMakeLists.txt
+        backend/CMakeLists.txt
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET rzhaka APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -43,6 +45,9 @@ else()
 endif()
 
 target_link_libraries(rzhaka PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+add_subdirectory(backend)
+target_link_libraries(rzhaka PRIVATE runtime)
 
 set_target_properties(rzhaka PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

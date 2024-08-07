@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "baza.h"
+#include "baza.hpp"
 
 enum class BoolVal {
     TRUE, 

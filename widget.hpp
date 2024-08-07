@@ -1,19 +1,13 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
-#include "qcolor.h"
-#include "qdebug.h"
-#include "qevent.h"
-#include "qlabel.h"
-#include "qlayout.h"
-#include "qmap.h"
-#include "qmath.h"
-#include "qnamespace.h"
-#include "qpalette.h"
+#include <QGridLayout>
 #include <QWidget>
 #include <QPainter>
+#include <QLabel>
+#include <QDebug>
 
-#include "/home/cracky/rzhaka/backend/runtime/runtime.h"
+#include "runtime/runtime.hpp"
 
 
 QT_BEGIN_NAMESPACE
