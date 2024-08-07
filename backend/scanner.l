@@ -1,5 +1,5 @@
 %{
-#include "scanner.hh"
+#include "scanner.hpp"
 #include <sstream>
 using namespace std;
 %}

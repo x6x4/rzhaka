@@ -1,4 +1,4 @@
-#include "scanner.hh" 
+#include "scanner.hpp"
 #include <iostream>
 
 using Parser = yy::parser;

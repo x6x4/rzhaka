@@ -9,13 +9,13 @@
 %require "3.5"
 
 %code requires {
-#include "liba.h"
-#include "runtime/runtime.h"
+#include "liba.hpp"
+#include "runtime/runtime.hpp"
 class Scanner;
 }
 
 %code{
-#include "scanner.hh"
+#include "scanner.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -26,7 +26,7 @@ extern "C" int yyerror(const char *s) {
 };
 
 Symbol_table symtab;
-Field lab("/home/cracky/rzhaka/backend/hexagons.labhex");
+Field lab("backend/hexagons.labhex");
 
 
 static yy::parser::symbol_type yylex(Scanner &scanner) {
@@ -132,7 +132,7 @@ arith_add_expr
 
 arith_sub_expr
 : NUMBER { $$ = $1; }
-| VARIABLE { $$ = symtab.get_entry($1);}
+| VARIABLE { $$ = std::get<Integer>(symtab.get_entry($1));}
 | arith_sub_expr MINUS NUMBER { $$ = $1 - $3; }
 
 
