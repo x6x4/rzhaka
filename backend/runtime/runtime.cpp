@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -10,6 +11,7 @@ Boolean Field::move_robot(bool forward) {
     prev_cell = cur_cell;
     bool status = move_from_cell(forward, cur_cell);
     if (!status) std::cout << "stuck" << std::endl;
+    if (cur_cell == exit) throw std::runtime_error("YOU WON");
     return status;
 }
 
@@ -47,6 +49,7 @@ Field::Field (const std::string &string) {
                     break;
                 case 'Q':
                     cur_cell_type = CellType::EXIT;
+                    exit = Cell(depth, width);
                     break;
                 case 'E':
                     cur_cell_type = CellType::EMPTY;
@@ -157,14 +160,17 @@ bool Field::move_from_cell(bool forward, Cell &start_cell) {
     return false;
 }
 
+const CellType get_cell_type(const Cell &to_find, const Field &field) {
+    for (const auto &entry : field.get_cells())
+        if (entry.first.first == to_find.first && entry.first.second == to_find.second)
+            return entry.second.m_type;
 
-int cell_num(const Cell &cell, int width) {
-    return cell.first*width + cell.second;
+    return CellType::UNDEF;    
 }
 
 bool is_barrier (const Cell &to_look, const Field &field) {
     switch 
-    (field.get_cells().at(cell_num(to_look, field.get_width())).second.m_type) {
+    (get_cell_type(to_look, field)) {
         case CellType::BOX:
         case CellType::WALL:
             return true;
@@ -179,7 +185,7 @@ CellType Field::test() {
     while (move_from_cell(1, to_test))
         if (is_barrier(to_test, *this)) 
             return 
-            m_cells.at(cell_num(to_test, m_width)).second.m_type;
+            get_cell_type(to_test, *this);
 
     return CellType::WALL;
 }

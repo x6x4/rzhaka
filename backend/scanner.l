@@ -31,6 +31,7 @@ using namespace std;
 "right"     { return yy::parser::make_RIGHT(); }
    
 
+
 t(rue)*         {   return yy::parser::make_TRUE(Boolean(BoolVal::TRUE)); }
 f(alse)*        {   return yy::parser::make_FALSE(Boolean(BoolVal::FALSE)); }
 u(ndef)*        {   return yy::parser::make_UNDEF(Boolean(BoolVal::UNDEF)); }
@@ -78,6 +79,6 @@ u(ndef)*        {   return yy::parser::make_UNDEF(Boolean(BoolVal::UNDEF)); }
                     return yy::parser::make_VARIABLE(yytext);
                 }
 
-.               {  return yy::parser::make_UNKNOWN();  }
+.               {  throw std::runtime_error("unknown terminal\n");  }
 
 %%

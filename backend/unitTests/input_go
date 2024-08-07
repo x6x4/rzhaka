@@ -4,21 +4,21 @@ function main () do
 
         ###  move until barrier
 
-        INT dist = look
+        INT dist := look
         while dist > 0 do 
-            forward 1
+            forward 
             dist := dist - 1
         done
 
         ###  think about barrier
         ###  rotate right if can do nothing
 
-        CELL type = test
+        CELL type := test
         if type = BOX do 
-            BOOL status = load 0
+            BOOL status := load 0
 
             if status do 
-                forward 1
+                forward 
             done 
             eldef do 
                 right

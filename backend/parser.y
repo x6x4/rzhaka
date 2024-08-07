@@ -44,13 +44,13 @@ static yy::parser::symbol_type yylex(Scanner &scanner) {
 %token <Boolean> TRUE FALSE UNDEF 
 %token <CellVar> EMPTY WALL BOX EXIT 
 %token <std::string> VARIABLE ASSIGN
-%token FN_MAIN DO DONE NEWLINES UNKNOWN 
+%token FN_MAIN DO DONE NEWLINES 
 %token FORWARD BACK LEFT RIGHT TEST LOOK
 
-%type <ValueType> imm_value expr
+%type <ValueType> expr
 %type <Integer>   arith_expr arith_sub_expr arith_add_expr 
-%type <ValueType> assignment operator
-%type <Boolean>   boolean logic_expr xor_expr comp_expr
+%type <ValueType> assignment operator big_expr comp_expr
+%type <Boolean>   boolean logic_expr xor_expr little_comp_expr
 %type <Cell>      cell
 
 %start fn_main
@@ -68,9 +68,35 @@ statements
 | statement NEWLINES statements 
 
 statement
-: operator
-| assignment 
+: assignment 
 | var_declaration
+| operator
+
+assignment
+: VARIABLE ASSIGN big_expr { 
+    symtab.fill_entry($1, $3); symtab.print();
+} 
+
+var_declaration: 
+VARIABLE { symtab.add_entry($1); std::cout << $1 << std::endl; }
+
+big_expr 
+: comp_expr { $$ = $1; }
+| expr { $$ = $1; }
+| VARIABLE  { $$ = symtab.get_entry($1);}
+
+comp_expr 
+: expr EQ expr { 
+    $$ = Boolean($1 == $3); 
+}
+| comp_expr EQ expr { 
+    $$ = Boolean($1 == $3); 
+}
+
+expr
+: operator
+| arith_expr { $$ = $1; }
+| logic_expr { $$ = $1; }
 
 operator
 : FORWARD   { $$ = lab.move_robot(1); }
@@ -80,31 +106,16 @@ operator
 | LEFT      { $$ = lab.left(); } 
 | RIGHT     { $$ = lab.right(); } 
 
-assignment
-: VARIABLE ASSIGN expr { 
-    symtab.fill_entry($1, $3);
-} 
-
-var_declaration: 
-VARIABLE { symtab.add_entry($1); std::cout << $1 << std::endl; }
-
-expr
-: arith_expr { $$ = $1; }
-| logic_expr { $$ = $1; }
-
 logic_expr
 : boolean { $$ = $1; }
 | xor_expr { $$ = $1; }
 
 xor_expr
-: comp_expr { $$ = $1; }
-| xor_expr XOR comp_expr { $$ = $1 ^ $3; }
+: little_comp_expr { $$ = $1; }
+| xor_expr XOR little_comp_expr { $$ = $1 ^ $3; }
 
-comp_expr
-: expr EQ expr { 
-    $$ = ($1 == $3); 
-}
-| arith_expr LT arith_expr { $$ = ($1 < $3); }
+little_comp_expr
+: arith_expr LT arith_expr { $$ = ($1 < $3); }
 | arith_expr GT arith_expr { $$ = ($1 > $3); }
 
 
@@ -122,12 +133,6 @@ arith_sub_expr
 | arith_sub_expr MINUS NUMBER { $$ = $1 - $3; }
 
 
-imm_value
-: NUMBER    { $$ = $1; }
-| boolean   { $$ = $1; }
-| cell      { $$ = $1;    }
-| VARIABLE  { $$ = symtab.get_entry($1);}
-
 boolean
 : TRUE      { $$ = $1; }
 | FALSE     { $$ = $1; }
@@ -138,10 +143,6 @@ cell
 | WALL       { $$ = $1; }
 | BOX        { $$ = $1; }
 | EXIT       { $$ = $1; }
-
-
-error_nt 
-: UNKNOWN    { throw std::runtime_error("compilation error"); }
 
 
 %%

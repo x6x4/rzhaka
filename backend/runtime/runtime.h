@@ -47,6 +47,7 @@ class Field {
     Orient direction = Orient::NORTH;
     Cell cur_cell;
     Cell prev_cell;
+    Cell exit;
     int m_width;
     int m_depth;
 
