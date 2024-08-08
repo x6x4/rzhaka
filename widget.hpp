@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QDebug>
 
+#include "listener.hpp"
 #include "runtime/runtime.hpp"
 
 
@@ -33,7 +34,7 @@ class FieldGui : public QWidget {
 
     QGridLayout m_grid;
     Cell prev;
-
+    Listener m_listener;
 public:
 
     FieldGui (Field* field, QWidget *main);

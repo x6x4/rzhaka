@@ -4,4 +4,12 @@ a:=5
 b:=6+8
 
 g:=TRUE
+forward
+right
+forward
+forward
+backward
+left
+left 
+forward
 done 

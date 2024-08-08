@@ -1,8 +1,13 @@
 #include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/un.h>
 
 #include "runtime.hpp"
 
@@ -74,6 +79,18 @@ Field::Field (const std::string &string) {
     m_width--;
 
     fs.close();
+
+    m_socket = socket(AF_UNIX, SOCK_STREAM, 0);
+    struct sockaddr_un server_addr;
+    server_addr.sun_family = AF_UNIX;
+    strcpy(server_addr.sun_path, "/tmp/sock.sock");
+    
+    int connection_result = connect(m_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    if (connection_result == -1) {
+        perror("Socket does not connected: ");
+        close(m_socket);
+        m_socket = -1;
+    }
 }
 
 
@@ -199,4 +216,14 @@ Integer Field::look() {
     }
 
     return dist;
+}
+
+void 
+Field::send() {
+    std::cout << "New pos {" << cur_cell.first << ", " << cur_cell.second <<"}, dir=" << (uint32_t)direction << "\n";
+    State state{cur_cell, direction};
+    if (m_socket != -1) {
+        write(m_socket, &state, sizeof(state));
+    }
+    sleep(1);
 }
