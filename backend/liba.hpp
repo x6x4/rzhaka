@@ -28,7 +28,7 @@ struct Symbol_table {
         );
     }
 
-    void fill_entry (const std::string &name, ValueType& value) {
+    void fill_entry (const std::string &name, const ValueType& value) {
         symbol_table[name] = value;
     }
 
