@@ -42,6 +42,11 @@ enum class Orient {
 
 typedef std::pair <int, int> Cell;
 
+struct State {
+    Cell cell;
+    Orient direction;
+};
+
 class Field {
 
     Orient direction = Orient::NORTH;
@@ -55,7 +60,7 @@ class Field {
 
 public:
 
-    void send() {}
+    void send();
 
     const auto get_cells() const {return m_cells;}
     const auto get_orient() const {return direction;}
@@ -74,5 +79,5 @@ public:
 
 private:
     bool move_from_cell(bool forward, Cell &start_cell);
-
+    int m_socket = 0;
 };

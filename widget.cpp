@@ -57,5 +57,9 @@ FieldGui::FieldGui (Field* field, QWidget *main) :
     main->setLayout(&m_grid);
     connect(this, &FieldGui::changed, this, &FieldGui::update);
     update(field->get_orient(), field->get_cur());
+
+    auto* m_listener = new Listener(this);
+    m_listener->openServer("sock.sock");
+    connect(m_listener, SIGNAL(newStateRecieved(Orient, Cell)), this, SLOT(update(Orient, Cell)));
 }
 
